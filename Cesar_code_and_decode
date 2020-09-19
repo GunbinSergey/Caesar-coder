@@ -1,0 +1,25 @@
+#include <iostream>;
+#include <string>;
+#include <stdlib.h>
+using namespace std;
+
+
+int main()
+{
+
+	setlocale(LC_ALL, "");
+	string start;
+	cin >> start;
+	char* a = new char[start.length()];
+	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
+	//for (int i = 0; i < 3; i++)
+	//	a =+ start[i];
+
+	for (int i = 0; i < start.length(); i++)
+	{
+		cout << char(a[i] + 1);
+	}
+
+	return 0;
+
+}
