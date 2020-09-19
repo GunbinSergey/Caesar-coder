@@ -2,23 +2,52 @@
 #include <string>;
 #include <stdlib.h>
 using namespace std;
-
+#define endln << "\n"
 
 int main()
 {
 
 	setlocale(LC_ALL, "");
 	string start;
+	int num;
+	cout << int('A');
+	cout << "Введите строки для шифорвки (Кирилица не обрабаытвается)" endln;
 	cin >> start;
+
 	char* a = new char[start.length()];
 	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
-	//for (int i = 0; i < 3; i++)
-	//	a =+ start[i];
 
+	int n;
+
+	cout << "На сколько симовлов будем переносить?" endln;
+	cin >> num;
 	for (int i = 0; i < start.length(); i++)
 	{
-		cout << char(a[i] + 1);
+		if (a[i] >= 97 && a[i] <= 122)		//проверяем маленькии буквы
+		{
+		n = int(a[i] + num - 97) % 26;
+		cout << char(97 + n);
+		}
+		else if (a[i] >= 65 && a[i] <= 90)	//Проверяем больших букв
+		{
+			n = int(a[i] + num - 65) % 26;
+			cout << char(65 + n);
+		}
+		else if (a[i] >= 48 && a[i] <= 57) // цифры
+		{
+			n = int(a[i] + num - 48) % 10;
+			cout << char(48 + n);
+		}
+		else                               // Знаки препинания не трогаем
+		{
+			n = 0;
+			cout << char(a[i]);
+		}
+
+
+
 	}
+
 
 	return 0;
 
