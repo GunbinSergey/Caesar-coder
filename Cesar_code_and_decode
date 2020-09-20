@@ -12,18 +12,18 @@ void Coding()
 	string start;
 	int num;
 
-	cout << "Введите строки для шифорвки: ";
+	cout << "Введите ваше донесение: ";
 	//cin >> start;
 	cin.sync();
 	getline(cin, start);
 	char* a = new char[start.length()];
 	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
 	int n;
-	cout << "На сколько симовлов будем переносить?" endln;
+	cout << "Введите актуальный код шифрофки?" endln;
 	cin.sync();
 	cin >> num;
 	cin.ignore();
-	cout << "Шифр: " endln;
+	cout << "Шифрограмма: " endln;
 
 	for (int i = 0; i < start.length(); i++)
 	{
@@ -67,15 +67,15 @@ void Decoding()
 	string start;
 	int num;
 
-	cout << "Введите строки для дэшифорвки: " endln;
+	cout << "Введите шифрограмму: " endln;
 	cin.sync();
 	getline(cin, start);
 	char* a = new char[start.length()];
 	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
 	int n;
-	cout endln << "С каким переносом зашифровали информацю?" endln;
+	cout endln << "Введите актуальный код дешифровки" endln;
 	cin >> num;
-	cout  << "Сообщение: ";
+	cout  << "Донесение: ";
 	for (int i = 0; i < start.length(); i++)
 	{
 		if (a[i] >= 97 && a[i] <= 121)		//проверяем маленькии буквы
@@ -134,10 +134,10 @@ int main()
 	setlocale(LC_CTYPE, "rus");
 	string Answer;
 	string Mode;
-	cout << "Вас приветсвует мастре шифровки дешифровки код цезрая" endln;
+	cout << "Ave, легат: username, программа шифровки и дешифровки приветсвует вас" endln;
 	while (Answer != "Да")
 	{
-		cout << "Выберите режим работы программы (Д/Ш)" endln;
+		cout << "Нужно зашифровать или дешифровать донесение? (Д/Ш)" endln;
 		cin.sync();
 		cin >> Mode;
 		cin.ignore();
@@ -147,7 +147,7 @@ int main()
 			if (Mode == "Д")
 			{
 				Decoding();
-				cout << " Продолжить работу в данном режиме" endln;
+				cout << "Донесение расшифровано, расшифровать следющее?" endln;
 				cin.sync();
 				cin >> Answer;
 				cin.ignore();
@@ -155,7 +155,7 @@ int main()
 			else if (Mode == "Ш")
 			{
 				Coding();
-				cout << " Продолжить работу в данном режиме" endln;
+				cout << "Донесение зашифровано, загифровать ещё одно?" endln;
 				cin.sync();
 				cin >> Answer;
 				cin.ignore();
@@ -163,19 +163,19 @@ int main()
 			else
 			{
 				cout << "Ошибка ввода" endln;
-				cout << "Выберите режим работы программы (Д/Ш)" endln;
+				cout << "Программа просит повторить приказ. (Д/Ш)" endln;
 				cin.sync();
 				cin >> Mode;
 				cin.ignore();
 			}
 
 		}
-		cout << "Завершить работу программы, в случае отказа программа предложит выбрать режим" endln;
+		cout << "Закончить работу или начать работу программы заново?" endln;
 		cin.sync();
 		cin >> Answer;
 		cin.ignore();
 	}
-
+	cout << "Ave Rome!" endln;
 
 
 
