@@ -1,32 +1,36 @@
 #include <iostream>;
 #include <string>;
 #include <stdlib.h>
+#include <Windows.h>
 using namespace std;
 #define endln << "\n"
 
-int main()
-{
 
-	setlocale(LC_ALL, "");
+
+void Coding()
+{
 	string start;
 	int num;
-	cout << int('A');
-	cout << "Введите строки для шифорвки (Кирилица не обрабаытвается)" endln;
-	cin >> start;
 
+	cout << "Введите строки для шифорвки: ";
+	//cin >> start;
+	cin.sync();
+	getline(cin, start);
 	char* a = new char[start.length()];
 	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
-
 	int n;
-
 	cout << "На сколько симовлов будем переносить?" endln;
+	cin.sync();
 	cin >> num;
+	cin.ignore();
+	cout << "Шифр: " endln;
+
 	for (int i = 0; i < start.length(); i++)
 	{
 		if (a[i] >= 97 && a[i] <= 122)		//проверяем маленькии буквы
 		{
-		n = int(a[i] + num - 97) % 26;
-		cout << char(97 + n);
+			n = int(a[i] + num - 97) % 26;
+			cout << char(97 + n);
 		}
 		else if (a[i] >= 65 && a[i] <= 90)	//Проверяем больших букв
 		{
@@ -38,15 +42,142 @@ int main()
 			n = int(a[i] + num - 48) % 10;
 			cout << char(48 + n);
 		}
+		else if (a[i] >= -32 && a[i] <= -1) // Кирилица строчные
+		{
+			n = int(a[i] + 32 + num % 33) % 32;
+			cout << char(-32 + n);
+		}
+		else if (a[i] >= -64 && a[i] <= -33) // Кирилица заглавные
+		{
+			n = int(a[i] + 64 + num%33)%32;
+			cout << char(-64 + n);
+		}
 		else                               // Знаки препинания не трогаем
 		{
 			n = 0;
 			cout << char(a[i]);
 		}
 
+	}
+	cout endln;
+}
 
+void Decoding()
+{
+	string start;
+	int num;
+
+	cout << "Введите строки для дэшифорвки: " endln;
+	cin.sync();
+	getline(cin, start);
+	char* a = new char[start.length()];
+	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
+	int n;
+	cout endln << "С каким переносом зашифровали информацю?" endln;
+	cin >> num;
+	cout  << "Сообщение: ";
+	for (int i = 0; i < start.length(); i++)
+	{
+		if (a[i] >= 97 && a[i] <= 121)		//проверяем маленькии буквы
+		{
+			n = int((a[i] - 97) - num%26);
+			if (n < 0)
+				n += 26;
+			cout << char(97 + n);
+		}
+		else if (a[i] >= 65 && a[i] <= 90)	//Проверяем больших букв
+		{
+			n = int((a[i] - 65) - num % 26);
+			if (n < 0)
+				n += 26;
+			cout << char(65 + n);
+
+		}
+		else if (a[i] >= 48 && a[i] <= 57) // цифры
+		{
+			n = int((a[i] - 48) - num % 10);
+			if (n < 0)
+				n += 10;
+			cout << char(48 + n);
+		}
+		else if (a[i] >= -32 && a[i] <= -1) // Кирилица строчные
+		{
+			n = int((32 + a[i]) - num % 33);// % 33;
+			if (n < 0)
+				n += 32;
+			cout << char(-32 + n);
+		}
+		else if (a[i] >= -64 && a[i] <= -33) // Кирилица заглавные
+		{
+			n = int((64 + a[i]) - num % 33);// % 33;
+			if (n < 0)
+				n += 32;
+			cout << char(-64 + n);
+		}
+		else                               // Знаки препинания не трогаем
+		{
+			n = 0;
+			cout << char(a[i]);
+		}
 
 	}
+	cout  endln;
+}
+
+
+
+int main()
+{
+
+	SetConsoleCP(1251);// установка кодовой страницы win-cp 1251 в поток ввода
+	SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
+	setlocale(LC_CTYPE, "rus");
+	string Answer;
+	string Mode;
+	cout << "Вас приветсвует мастре шифровки дешифровки код цезрая" endln;
+	while (Answer != "Да")
+	{
+		cout << "Выберите режим работы программы (Д/Ш)" endln;
+		cin.sync();
+		cin >> Mode;
+		cin.ignore();
+		Answer = "Да";
+		while (Answer != "Нет")
+		{
+			if (Mode == "Д")
+			{
+				Decoding();
+				cout << " Продолжить работу в данном режиме" endln;
+				cin.sync();
+				cin >> Answer;
+				cin.ignore();
+			}
+			else if (Mode == "Ш")
+			{
+				Coding();
+				cout << " Продолжить работу в данном режиме" endln;
+				cin.sync();
+				cin >> Answer;
+				cin.ignore();
+			}
+			else
+			{
+				cout << "Ошибка ввода" endln;
+				cout << "Выберите режим работы программы (Д/Ш)" endln;
+				cin.sync();
+				cin >> Mode;
+				cin.ignore();
+			}
+
+		}
+		cout << "Завершить работу программы, в случае отказа программа предложит выбрать режим" endln;
+		cin.sync();
+		cin >> Answer;
+		cin.ignore();
+	}
+
+
+
 
 
 	return 0;
