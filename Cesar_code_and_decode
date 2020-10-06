@@ -10,8 +10,8 @@ using namespace std;
 
 void Coding()
 {
-	string start;
-	float prenum;
+	string start; // Строка, которая будет шифроваться
+	float prenum; // Переменая нужна, чтоб не сломали программу дробью
 
 	cout << "Введите ваше донесение: ";
 	//cin >> start;
@@ -26,18 +26,18 @@ void Coding()
 		cout << "Вы случайно ввели отрицательное число, мы это заметили и исправили"  endln;
 	if (prenum != floor(prenum))
 		cout << "Вы случайно ввели дробное число, мы это заметили и исправили, взяв целую часть"  endln;
-	int num = floor(abs(prenum));
+	int num = floor(abs(prenum)); // Преобразование защищающие шифровку от неправильной работы
 	cin.ignore();
 	cout << "Шифрограмма: " endln;
 
 	for (int i = 0; i < start.length(); i++)
 	{
-		if (a[i] >= 97 && a[i] <= 122)		//проверяем маленькии буквы
+		if (a[i] >= 97 && a[i] <= 122)		//проверяем маленькии буквы анг
 		{
 			n = int(a[i] + num - 97) % 26;
 			cout << char(97 + n);
 		}
-		else if (a[i] >= 65 && a[i] <= 90)	//Проверяем больших букв
+		else if (a[i] >= 65 && a[i] <= 90)	//Проверяем больших букв анг
 		{
 			n = int(a[i] + num - 65) % 26;
 			cout << char(65 + n);
@@ -69,13 +69,13 @@ void Coding()
 
 void Decoding()
 {
-	string start;
-	float prenum;
+	string start; //Строка для ввода текста на дешифровку
+	float prenum; // Переменая для защиты от ввода дроби
 
 	cout << "Введите шифрограмму: " endln;
 	cin.sync();
 	getline(cin, start);
-	char* a = new char[start.length()];
+	char* a = new char[start.length()]; //Перевод строки в массив символов для удобства
 	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
 	int n;
 	cout endln << "Введите актуальный код дешифровки (Не отрицательное целое число)" endln;
@@ -84,18 +84,18 @@ void Decoding()
 		cout << "Вы случайно ввели отрицательное число, мы это заметили и исправили"  endln;
 	if (prenum != floor(prenum))
 		cout << "Вы случайно ввели дробное число, мы это заметили и исправили, взяв целую часть"  endln;
-	int num = floor(abs(prenum));
+	int num = floor(abs(prenum)); // Преобразование защищающие шифровку от неправильной работы
 	cout  << "Донесение: ";
 	for (int i = 0; i < start.length(); i++)
 	{
-		if (a[i] >= 97 && a[i] <= 121)		//проверяем маленькии буквы
+		if (a[i] >= 97 && a[i] <= 121)		//проверяем маленькии буквы анг
 		{
 			n = int((a[i] - 97) - num%26);
 			if (n < 0)
 				n += 26;
 			cout << char(97 + n);
 		}
-		else if (a[i] >= 65 && a[i] <= 90)	//Проверяем больших букв
+		else if (a[i] >= 65 && a[i] <= 90)	//Проверяем больших букв анг
 		{
 			n = int((a[i] - 65) - num % 26);
 			if (n < 0)
@@ -142,8 +142,8 @@ int main()
 	SetConsoleCP(1251);// установка кодовой страницы win-cp 1251 в поток ввода
 	SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
 	setlocale(LC_CTYPE, "rus");
-	string Answer;
-	string Mode;
+	string Answer; // Переменная для обратной связи с пользователем 
+	string Mode; // Режим работы программы
 	cout << "Ave, легат: username, программа шифровки и дешифровки приветсвует вас" endln;
 	while (Answer != "Да")
 	{
