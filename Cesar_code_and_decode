@@ -11,7 +11,7 @@ using namespace std;
 void Coding()
 {
 	string start;
-	int num;
+	float prenum;
 
 	cout << "Введите ваше донесение: ";
 	//cin >> start;
@@ -20,10 +20,13 @@ void Coding()
 	char* a = new char[start.length()];
 	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
 	int n;
-	cout << "Введите актуальный код шифрофки?" endln;
-	cin.sync();
-	cin >> num;
-	num = abs(num);
+	cout endln << "Введите актуальный код дешифровки (Не отрицательное целое число)" endln;
+	cin >> prenum;
+	if (prenum < 0)
+		cout << "Вы случайно ввели отрицательное число, мы это заметили и исправили"  endln;
+	if (prenum != floor(prenum))
+		cout << "Вы случайно ввели дробное число, мы это заметили и исправили, взяв целую часть"  endln;
+	int num = floor(abs(prenum));
 	cin.ignore();
 	cout << "Шифрограмма: " endln;
 
@@ -67,7 +70,7 @@ void Coding()
 void Decoding()
 {
 	string start;
-	int num;
+	float prenum;
 
 	cout << "Введите шифрограмму: " endln;
 	cin.sync();
@@ -75,9 +78,13 @@ void Decoding()
 	char* a = new char[start.length()];
 	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
 	int n;
-	cout endln << "Введите актуальный код дешифровки" endln;
-	cin >> num;
-	num = abs(num);
+	cout endln << "Введите актуальный код дешифровки (Не отрицательное целое число)" endln;
+	cin >> prenum;
+	if (prenum < 0)
+		cout << "Вы случайно ввели отрицательное число, мы это заметили и исправили"  endln;
+	if (prenum != floor(prenum))
+		cout << "Вы случайно ввели дробное число, мы это заметили и исправили, взяв целую часть"  endln;
+	int num = floor(abs(prenum));
 	cout  << "Донесение: ";
 	for (int i = 0; i < start.length(); i++)
 	{
@@ -96,7 +103,7 @@ void Decoding()
 			cout << char(65 + n);
 
 		}
-		else if (a[i] >= 48 && a[i] <= 57) // цифры
+		else if (a[i] >= 48 && a[i] <= 57) // цифры 
 		{
 			n = int((a[i] - 48) - num % 10);
 			if (n < 0)
@@ -158,7 +165,7 @@ int main()
 			else if (Mode == "Ш")
 			{
 				Coding();
-				cout << "Донесение зашифровано, загифровать ещё одно?" endln;
+				cout << "Донесение зашифровано, засшифровать ещё одно?" endln;
 				cin.sync();
 				cin >> Answer;
 				cin.ignore();
@@ -171,15 +178,15 @@ int main()
 				cin >> Mode;
 				cin.ignore();
 			}
-
+			
 		}
-		cout << "Закончить работу или начать работу программы заново?" endln;
+		cout << "Закончить работу? При отказе работа программы начнётся сначала." endln;
 		cin.sync();
 		cin >> Answer;
 		cin.ignore();
 	}
 	cout << "Ave Rome!" endln;
-
+	
 
 
 
