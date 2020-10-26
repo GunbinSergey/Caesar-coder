@@ -3,10 +3,28 @@
 #include <stdlib.h>
 #include <Windows.h>
 #include <math.h>;
+#include <time.h>
 using namespace std;
 #define endln << "\n"
+#include <fstream>
+#include <sstream>
 
-
+void logger(string message) // функция логирования
+{
+	ofstream fout;
+	fout.open("log.txt", ios_base::app);
+	time_t td;
+	td = time(NULL);
+	fout << ctime(&td) << message endln;
+	fout.close();
+}
+void charLogerr(char c) //Пришлось сделать отдельный метод для логирования символов
+{
+	ofstream fout;
+	fout.open("log.txt", ios_base::app);
+	fout << c;
+	fout.close();
+}
 
 void Coding()
 {
@@ -14,21 +32,34 @@ void Coding()
 	float prenum; // Переменая нужна, чтоб не сломали программу дробью
 
 	cout << "Введите ваше донесение: ";
+	logger("Введите ваше донесение: ");
 	//cin >> start;
 	cin.sync();
 	getline(cin, start);
+	logger(start);
 	char* a = new char[start.length()];
 	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
 	int n;
-	cout endln << "Введите актуальный код дешифровки (Не отрицательное целое число)" endln;
+	cout endln << "Введите актуальный код шифровки (Не отрицательное целое число)" endln;
+	logger("Введите актуальный код шифровки (Не отрицательное целое число)");
 	cin >> prenum;
+	ostringstream strs;
+	strs << prenum;
+	logger(strs.str());
 	if (prenum < 0)
+	{
 		cout << "Вы случайно ввели отрицательное число, мы это заметили и исправили"  endln;
+		logger("Вы случайно ввели отрицательное число, мы это заметили и исправили");
+	}
 	if (prenum != floor(prenum))
+	{
 		cout << "Вы случайно ввели дробное число, мы это заметили и исправили, взяв целую часть"  endln;
+		logger("Вы случайно ввели дробное число, мы это заметили и исправили, взяв целую часть");
+	}
 	int num = floor(abs(prenum)); // Преобразование защищающие шифровку от неправильной работы
 	cin.ignore();
 	cout << "Шифрограмма: " endln;
+	logger("Шифрограмма: ");
 
 	for (int i = 0; i < start.length(); i++)
 	{
@@ -36,34 +67,41 @@ void Coding()
 		{
 			n = int(a[i] + num - 97) % 26;
 			cout << char(97 + n);
+			charLogerr(char(97 + n));
 		}
 		else if (a[i] >= 65 && a[i] <= 90)	//Проверяем больших букв анг
 		{
 			n = int(a[i] + num - 65) % 26;
 			cout << char(65 + n);
+			charLogerr(char(65 + n));
 		}
 		else if (a[i] >= 48 && a[i] <= 57) // цифры
 		{
 			n = int(a[i] + num - 48) % 10;
 			cout << char(48 + n);
+			charLogerr(char(48 + n));
 		}
 		else if (a[i] >= -32 && a[i] <= -1) // Кирилица строчные
 		{
 			n = int(a[i] + 32 + num % 33) % 32;
 			cout << char(-32 + n);
+			charLogerr(char(-32 + n));
 		}
 		else if (a[i] >= -64 && a[i] <= -33) // Кирилица заглавные
 		{
 			n = int(a[i] + 64 + num%33)%32;
 			cout << char(-64 + n);
+			charLogerr(char(-64 + n));
 		}
 		else                               // Знаки препинания не трогаем
 		{
 			n = 0;
 			cout << char(a[i]);
+			charLogerr(a[i]);
 		}
 
 	}
+	charLogerr('\n'); //Перенос строки после
 	cout endln;
 }
 
@@ -73,19 +111,33 @@ void Decoding()
 	float prenum; // Переменая для защиты от ввода дроби
 
 	cout << "Введите шифрограмму: " endln;
+	logger("Введите шифрограмму");
 	cin.sync();
 	getline(cin, start);
-	char* a = new char[start.length()]; //Перевод строки в массив символов для удобства
+	logger(start);
+	char* a = new char[start.length()];
 	strcpy(a, start.c_str()); // Ради этой строки отключил обработку sdl
 	int n;
 	cout endln << "Введите актуальный код дешифровки (Не отрицательное целое число)" endln;
+	logger("Введите актуальный код дешифровки (Не отрицательное целое число)");
 	cin >> prenum;
+	ostringstream strs;
+	strs << prenum;
+	logger(strs.str());
 	if (prenum < 0)
+	{
 		cout << "Вы случайно ввели отрицательное число, мы это заметили и исправили"  endln;
+		logger("Вы случайно ввели отрицательное число, мы это заметили и исправили");
+	}
 	if (prenum != floor(prenum))
+	{
 		cout << "Вы случайно ввели дробное число, мы это заметили и исправили, взяв целую часть"  endln;
+		logger("Вы случайно ввели дробное число, мы это заметили и исправили, взяв целую часть");
+	}
 	int num = floor(abs(prenum)); // Преобразование защищающие шифровку от неправильной работы
+	cin.ignore();
 	cout  << "Донесение: ";
+	logger("Донесение: ");
 	for (int i = 0; i < start.length(); i++)
 	{
 		if (a[i] >= 97 && a[i] <= 121)		//проверяем маленькии буквы анг
@@ -94,6 +146,7 @@ void Decoding()
 			if (n < 0)
 				n += 26;
 			cout << char(97 + n);
+			charLogerr(char(97 + n));
 		}
 		else if (a[i] >= 65 && a[i] <= 90)	//Проверяем больших букв анг
 		{
@@ -101,6 +154,7 @@ void Decoding()
 			if (n < 0)
 				n += 26;
 			cout << char(65 + n);
+			charLogerr(char(65 + n));
 
 		}
 		else if (a[i] >= 48 && a[i] <= 57) // цифры 
@@ -109,6 +163,7 @@ void Decoding()
 			if (n < 0)
 				n += 10;
 			cout << char(48 + n);
+			charLogerr(char(48 + n));
 		}
 		else if (a[i] >= -32 && a[i] <= -1) // Кирилица строчные
 		{
@@ -116,6 +171,7 @@ void Decoding()
 			if (n < 0)
 				n += 32;
 			cout << char(-32 + n);
+			charLogerr(char(-32 + n));
 		}
 		else if (a[i] >= -64 && a[i] <= -33) // Кирилица заглавные
 		{
@@ -123,14 +179,17 @@ void Decoding()
 			if (n < 0)
 				n += 32;
 			cout << char(-64 + n);
+			charLogerr(char(-64 + n));
 		}
 		else                               // Знаки препинания не трогаем
 		{
 			n = 0;
 			cout << char(a[i]);
+			charLogerr(a[i]);
 		}
 
 	}
+	charLogerr('\n');
 	cout  endln;
 }
 
@@ -138,19 +197,26 @@ void Decoding()
 
 int main()
 {
-
+	
+	
 	SetConsoleCP(1251);// установка кодовой страницы win-cp 1251 в поток ввода
 	SetConsoleOutputCP(1251); // установка кодовой страницы win-cp 1251 в поток вывода
 	setlocale(LC_CTYPE, "rus");
 	string Answer; // Переменная для обратной связи с пользователем 
 	string Mode; // Режим работы программы
+
 	cout << "Ave, легат: username, программа шифровки и дешифровки приветсвует вас" endln;
+	logger("Ave, легат: username, программа шифровки и дешифровки приветсвует вас");
+
+	
 	while (Answer != "Да")
 	{
 		cout << "Нужно зашифровать или дешифровать донесение? (Д/Ш)" endln;
+		logger("Нужно зашифровать или дешифровать донесение? (Д/Ш)");
 		cin.sync();
 		cin >> Mode;
 		cin.ignore();
+		logger(Mode);
 		Answer = "Да";
 		while (Answer != "Нет")
 		{
@@ -158,34 +224,44 @@ int main()
 			{
 				Decoding();
 				cout << "Донесение расшифровано, расшифровать следющее?" endln;
+				logger("Донесение расшифровано, расшифровать следющее?");
 				cin.sync();
 				cin >> Answer;
 				cin.ignore();
+				logger(Mode);
 			}
 			else if (Mode == "Ш")
 			{
 				Coding();
 				cout << "Донесение зашифровано, засшифровать ещё одно?" endln;
+				logger("Донесение зашифровано, засшифровать ещё одно?");
 				cin.sync();
 				cin >> Answer;
 				cin.ignore();
+				logger(Mode);
 			}
 			else
 			{
 				cout << "Ошибка ввода" endln;
+				logger("Ошибка ввода");
 				cout << "Программа просит повторить приказ. (Д/Ш)" endln;
+				logger("Программа просит повторить приказ. (Д/Ш)");
 				cin.sync();
 				cin >> Mode;
 				cin.ignore();
+				logger(Mode);
 			}
 			
 		}
 		cout << "Закончить работу? При отказе работа программы начнётся сначала." endln;
+		logger("Закончить работу? При отказе работа программы начнётся сначала.");
 		cin.sync();
 		cin >> Answer;
 		cin.ignore();
+		logger(Answer);
 	}
 	cout << "Ave Rome!" endln;
+	logger("Ave Rome!");
 	
 
 
